@@ -1,5 +1,6 @@
 import path from "node:path";
 import { User } from "../models/index.js";
+import { render } from "ejs";
 
 export const authRegisterCon = async (req, res, next) => {
   try {
@@ -57,34 +58,26 @@ export const authGetRegisterCon = (req, res, next) => {
     process.cwd(),
     "src",
     "public",
-    "register.html"
+    "register.ejs"
   );
   console.log(registerHtmlPath);
 
-  res.sendFile(registerHtmlPath);
+  res.render(registerHtmlPath);
 };
 
 export const authGetLoginCon = (req, res, next) => {
-  const loginHtmlPath = path.join(process.cwd(), "src", "public", "login.html");
+  const loginHtmlPath = path.join(process.cwd(), "src", "public", "login.ejs");
   console.log(loginHtmlPath);
 
-  res.sendFile(loginHtmlPath);
+  res.render(loginHtmlPath);
 };
 
-export const authGetMeCon = async (req, res, next) => {
-  const { user } = req.cookies;
-  if (!user) {
-    const loginHtmlPath = path.join(
-      process.cwd(),
-      "src",
-      "public",
-      "login.html"
-    );
-    console.log(loginHtmlPath);
-    return res.sendFile(loginHtmlPath);
-  }
-  const userExists = await User.findOne({ email: user.email });
-
-  console.log(userExists);
-  return res.send(userExists);
+export const authGetHomeCon = async (req, res, next) => {
+  const loginHtmlPath = path.join(
+    process.cwd(),
+    "src",
+    "public",
+    "home.ejs"
+  );
+  res.render(loginHtmlPath);
 };
